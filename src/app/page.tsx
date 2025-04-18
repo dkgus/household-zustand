@@ -15,10 +15,10 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-col flex-1 ml-4">
-        <div className="flex-[4] border m-[10px]">
+        <div className="flex-[4] card bg-[#F8FAFC] card-xs shadow-sm m-[10px]">
           <InputBox />
         </div>
-        <div className="flex-[6] border m-[10px]">
+        <div className="flex-[6] card bg-[#F8FAFC] card-xs shadow-sm  m-[10px]">
           <Summary />
         </div>
       </div>
