@@ -14,5 +14,7 @@ export interface SpendState {
   totalRent: number;
   totalTrffic: number;
   totalMeal: number;
+  getAllIncome: () => void;
+  getAllExpense: () => void;
   addList: (value: AddSpendState) => void;
 }

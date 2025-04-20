@@ -4,7 +4,6 @@ import { useStore } from "../store/spendStore";
 
 function Tracker() {
   const { spendList } = useStore();
-  console.log("spendList", spendList);
   return (
     <div className="w-[90%] mx-auto">
       <h3>결제 </h3>
