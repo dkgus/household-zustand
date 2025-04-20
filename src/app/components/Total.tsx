@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
+import { useStore } from "../store/spendStore";
 
 const Total = () => {
+  const { allIncome, allExpense } = useStore();
   return (
     <div className="stats shadow p-0 overflow-hidden w-[98%]">
       <div className="stat flex p-0">
@@ -12,7 +15,7 @@ const Total = () => {
                   이번 달 {idx === 0 ? " 총 수입" : "총 지출"}{" "}
                 </h2>
                 <div className="stat-value text-[black]">
-                  {idx === 0 ? "+" : "-"} 89,400
+                  {idx === 0 ? `+${allIncome}` : `-${allExpense}`}
                 </div>
               </div>
             </div>
