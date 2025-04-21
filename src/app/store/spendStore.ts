@@ -16,10 +16,24 @@ export const useStore = create<SpendState>((set) => ({
       const newSum = calSum(state.spendList, "in");
       return { allIncome: newSum };
     }),
+
   getAllExpense: () =>
     set((state) => {
       const newSum = calSum(state.spendList, "out");
       return { allExpense: newSum };
+    }),
+
+  getAllType: () =>
+    set((state) => {
+      const data = state.spendList;
+      const filterFunc = (type: string) => {
+        return data.filter((v) => v.type === type).length;
+      };
+      return {
+        totalRent: filterFunc("rent"),
+        totalTrffic: filterFunc("traffic"),
+        totalMeal: filterFunc("meal"),
+      };
     }),
 
   addList: (value) =>
