@@ -47,7 +47,8 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
       date: date,
       ...data,
     };
-    type === "edit" ? editList(newData) : addList(newData);
+    if (type === "edit") editList(newData);
+    else addList(newData);
 
     setData({
       id: uuidv4(),
@@ -90,7 +91,7 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
                         pageType === "edit" && data.type === value
                       }
                       value={value}
-                      onChange={(e) => setData({ ...data, type: value })}
+                      onChange={() => setData({ ...data, type: value })}
                     />
                     <label htmlFor={inputId}>{typeNm[value]}</label>
                   </div>

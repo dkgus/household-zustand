@@ -19,9 +19,16 @@ export const useStore = create<SpendState>((set) => ({
     date: "",
     storeNm: "",
     checked: false,
+    toastOpen: { name: "", status: "" },
   },
+  deleteInfo: { key: "" },
   modalOpen: false,
   setModalOpen: (isOpen) => set({ modalOpen: isOpen }),
+
+  toastOpen: { name: "", status: false },
+  setToastOpen: (name: string, status: boolean) =>
+    set({ toastOpen: { name, status } }),
+
   undo: () => console.log("undo"),
   redo: () => console.log("redo"),
 
@@ -32,7 +39,7 @@ export const useStore = create<SpendState>((set) => ({
         editInfo: prevData[0],
       };
     }),
-
+  setDeleteId: (id: string) => set({ deleteInfo: { key: id } }),
   getAllIncome: () =>
     set((state) => {
       const newSum = calSum(state.spendList, "in");
@@ -75,4 +82,12 @@ export const useStore = create<SpendState>((set) => ({
         spendList: updateSpend,
       };
     }),
+  deleteList: (value) => {
+    set((state) => {
+      const updateSpend = state.spendList.filter((v) => v.id !== value);
+      return {
+        spendList: updateSpend,
+      };
+    });
+  },
 }));

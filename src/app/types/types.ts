@@ -16,7 +16,10 @@ export interface SpendState {
   totalTrffic: number;
   totalMeal: number;
   editInfo: AddSpendState;
+  deleteInfo: { key: string };
 
+  toastOpen: { name: string; status: boolean };
+  setToastOpen: (name: string, status: boolean) => void;
   history: AddSpendState[];
   redoStack: AddSpendState[];
 
@@ -27,10 +30,11 @@ export interface SpendState {
   getAllIncome: () => void;
   getAllExpense: () => void;
   addList: (value: AddSpendState) => void;
-
   editList: (value: AddSpendState) => void;
-  setEditId: (value: string) => void;
+  deleteList: (value: string) => void;
 
+  setEditId: (value: string) => void;
+  setDeleteId: (value: string) => void;
   undo: () => void;
   redo: () => void;
 }

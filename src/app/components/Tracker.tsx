@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useStore } from "../store/spendStore";
 import DeleteIcon from "./icon/DeleteIcon";
 import EditIcon from "./icon/EditIcon";
 import EditModal from "./EditModal";
 
 function Tracker() {
-  const { spendList, setEditId, setModalOpen } = useStore();
+  const { spendList, setEditId, setModalOpen, setToastOpen, setDeleteId } =
+    useStore();
   return (
     <>
       <EditModal />
@@ -52,7 +53,14 @@ function Tracker() {
                             >
                               <EditIcon />
                             </div>
-                            <DeleteIcon />
+                            <div
+                              onClick={() => {
+                                setToastOpen("delete", true);
+                                setDeleteId(item.id);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </div>
                           </div>
                         </div>
                         <div className="flex justify-between text-[gray] px-[18px]">
