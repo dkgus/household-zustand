@@ -5,12 +5,10 @@ import { useStore } from "../store/spendStore";
 const Total = () => {
   const { allExpense, allIncome, getAllIncome, getAllExpense, spendList } =
     useStore();
-  console.log("spendList", spendList);
   useEffect(() => {
     getAllExpense();
     getAllIncome();
   }, [spendList]);
-  console.log("allExpense", allExpense);
 
   return (
     <div className="stats shadow p-0 overflow-hidden w-[98%]">

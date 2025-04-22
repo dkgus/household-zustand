@@ -1,6 +1,7 @@
-export type SpendType = "rent" | "traffic" | "meal" | "income";
+export type SpendType = "rent" | "traffic" | "meal" | "income" | "";
 
 export interface AddSpendState {
+  id: string;
   type: SpendType;
   price: number;
   date?: string;
@@ -14,8 +15,22 @@ export interface SpendState {
   totalRent: number;
   totalTrffic: number;
   totalMeal: number;
+  editInfo: AddSpendState;
+
+  history: AddSpendState[];
+  redoStack: AddSpendState[];
+
+  modalOpen: boolean;
+  setModalOpen: (value: boolean) => void;
+
   getAllType: () => void;
   getAllIncome: () => void;
   getAllExpense: () => void;
   addList: (value: AddSpendState) => void;
+
+  editList: (value: AddSpendState) => void;
+  setEditId: (value: string) => void;
+
+  undo: () => void;
+  redo: () => void;
 }

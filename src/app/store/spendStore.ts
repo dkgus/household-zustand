@@ -6,10 +6,32 @@ import { calSum } from "../utils";
 export const useStore = create<SpendState>((set) => ({
   allIncome: 0,
   allExpense: 0,
-  spendList: [],
   totalRent: 0,
   totalTrffic: 0,
   totalMeal: 0,
+  spendList: [],
+  history: [],
+  redoStack: [],
+  editInfo: {
+    id: "",
+    type: "",
+    price: 0,
+    date: "",
+    storeNm: "",
+    checked: false,
+  },
+  modalOpen: false,
+  setModalOpen: (isOpen) => set({ modalOpen: isOpen }),
+  undo: () => console.log("undo"),
+  redo: () => console.log("redo"),
+
+  setEditId: (id: string) =>
+    set((state) => {
+      const prevData = state.spendList.filter((v) => v.id === id);
+      return {
+        editInfo: prevData[0],
+      };
+    }),
 
   getAllIncome: () =>
     set((state) => {
@@ -38,9 +60,19 @@ export const useStore = create<SpendState>((set) => ({
 
   addList: (value) =>
     set((state) => {
-      const updateSpant = [value, ...state.spendList];
+      const updateSpend = [value, ...state.spendList];
       return {
-        spendList: updateSpant,
+        spendList: updateSpend,
+      };
+    }),
+  editList: (value) =>
+    set((state) => {
+      const updateSpend = state.spendList.map((item) =>
+        item.id === value.id ? value : item
+      );
+
+      return {
+        spendList: updateSpend,
       };
     }),
 }));

@@ -49,7 +49,6 @@ const Summary = () => {
   const chartRef = useRef<Chart<"doughnut"> | null>(null);
   const { totalRent, totalTrffic, totalMeal, getAllType, spendList } =
     useStore();
-
   useEffect(() => {
     getAllType();
   }, [spendList]);
@@ -59,15 +58,15 @@ const Summary = () => {
   }, [totalRent, totalTrffic, totalMeal]);
 
   const data = {
-    labels: ["임대", "식사", "교통"],
+    labels: ["임대", "교통", "식사"],
     datasets: [
       {
         label: "지출 카테고리",
         data: [totalRent, totalTrffic, totalMeal],
         backgroundColor: [
           "rgb(224, 158, 164)",
-          "rgb(189, 217, 163)",
           "rgb(172, 193, 232)",
+          "rgb(189, 217, 163)",
         ],
         borderWidth: 1,
       },

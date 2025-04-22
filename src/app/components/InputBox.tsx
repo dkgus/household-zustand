@@ -1,52 +1,70 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "../store/spendStore";
 import { AddSpendState, SpendType } from "../types/types";
 import { dateCreater } from "../utils";
+import { v4 as uuidv4 } from "uuid";
+import MoenySwitch from "./MoenySwitch";
 
-const InputBox = () => {
-  const { addList } = useStore();
+const InputBox = (props: { pageType: string; editId?: string }) => {
+  const { addList, editList, editInfo, spendList, setModalOpen } = useStore();
+  const { pageType } = props;
+
   const [data, setData] = useState<AddSpendState>({
-    type: "rent",
+    id: uuidv4(),
+    type: pageType !== "edit" ? "" : editInfo.type,
     price: 0,
     storeNm: "",
     checked: false,
   });
+
+  useEffect(() => {
+    if (pageType === "edit" && editInfo?.id) {
+      setData({
+        id: editInfo.id,
+        type: editInfo.type,
+        price: editInfo.price,
+        storeNm: editInfo.storeNm,
+        checked: editInfo.checked,
+      });
+    }
+  }, [editInfo, pageType]);
+
+  useEffect(() => {
+    console.log("spendList", spendList);
+  }, [spendList]);
 
   const typeNm: Record<SpendType, string> = {
     rent: "임대",
     traffic: "교통",
     meal: "식사",
     income: "수입",
+    "": "",
+  };
+
+  const saveItem = (date: string, type: string) => {
+    const newData = {
+      date: date,
+      ...data,
+    };
+    type === "edit" ? editList(newData) : addList(newData);
+
+    setData({
+      id: uuidv4(),
+      date,
+      storeNm: "",
+      price: 0,
+      type: "",
+      checked: false,
+    });
+    if (type === "edit") setModalOpen(false);
   };
 
   return (
     <div className="w-[90%] mx-auto">
       <div className="flex content-center justify-between">
         <h3>추가 항목</h3>
-        <div className="join items-center">
-          <div>지출</div>
-          <style jsx>{`
-            input.toggle {
-              --input-color: #fff;
-            }
-
-            input.toggle:checked {
-              --input-color: #fff;
-            }
-          `}</style>
-
-          <input
-            type="checkbox"
-            checked={data.checked}
-            onChange={(e) =>
-              setData({ ...data, checked: e.target.checked, type: "income" })
-            }
-            className="toggle bg-[#bf616b] border-[#bf616b] checked:bg-[#82a2c1] checked:border-[#82a2c1] text-white"
-          />
-
-          <div>수입</div>
-        </div>
+        {pageType !== "edit" && <MoenySwitch data={data} setData={setData} />}
       </div>
       <fieldset className="fieldset w-xs border-none p-4 rounded-box">
         {data.checked ? null : (
@@ -57,6 +75,7 @@ const InputBox = () => {
               .map((_, idx) => {
                 const value =
                   idx === 0 ? "rent" : idx === 1 ? "meal" : "traffic";
+                const inputId = `radio-${value}`;
                 return (
                   <div
                     className="custom_label flex items-center"
@@ -64,14 +83,16 @@ const InputBox = () => {
                   >
                     <input
                       type="radio"
-                      id="radio1"
+                      id={inputId}
                       name="radio-6"
                       className="radio radio-sm radio-success"
-                      checked={data.type === value}
+                      defaultChecked={
+                        pageType === "edit" && data.type === value
+                      }
                       value={value}
-                      onChange={() => setData({ ...data, type: value })}
+                      onChange={(e) => setData({ ...data, type: value })}
                     />
-                    <label htmlFor="radio1">{typeNm[value]}</label>
+                    <label htmlFor={inputId}>{typeNm[value]}</label>
                   </div>
                 );
               })}
@@ -96,23 +117,19 @@ const InputBox = () => {
         <button
           onClick={() => {
             const date = dateCreater();
-            const newData = {
-              date: date,
-              ...data,
-            };
-            addList(newData);
-
-            setData({
-              date: date,
-              storeNm: "",
-              price: 0,
-              type: "rent",
-              checked: false,
-            });
+            if (pageType !== "edit") {
+              saveItem(date, "create");
+            } else {
+              saveItem(date, "edit");
+            }
           }}
           className="btn btn-outline btn-success my-[10px]"
         >
-          {!data.checked ? "지출 추가" : "수입 추가"}
+          {pageType !== "edit"
+            ? !data.checked
+              ? "지출 추가"
+              : "수입 추가"
+            : "지출 수정"}
         </button>
       </fieldset>
     </div>
