@@ -30,10 +30,6 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
     }
   }, [editInfo, pageType]);
 
-  useEffect(() => {
-    console.log("spendList", spendList);
-  }, [spendList]);
-
   const typeNm: Record<SpendType, string> = {
     rent: "임대",
     traffic: "교통",
@@ -87,9 +83,7 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
                       id={inputId}
                       name="radio-6"
                       className="radio radio-sm radio-success"
-                      defaultChecked={
-                        pageType === "edit" && data.type === value
-                      }
+                      checked={data.type === value}
                       value={value}
                       onChange={() => setData({ ...data, type: value })}
                     />
@@ -124,7 +118,7 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
               saveItem(date, "edit");
             }
           }}
-          className="btn btn-outline btn-success my-[10px]"
+          className="btn btn-outline btn-success w-[99%] my-[10px]"
         >
           {pageType !== "edit"
             ? !data.checked

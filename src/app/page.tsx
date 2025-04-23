@@ -1,10 +1,34 @@
+"use client";
+import { useEffect } from "react";
 import Tracker from "@/app/components/Tracker";
 import Total from "@/app/components/Total";
 import InputBox from "@/app/components/InputBox";
 import Summary from "@/app/components/Summary";
 import MultiAlert from "./components/icon/MultiAlert";
+import { useStore } from "./store/spendStore";
 
 export default function Home() {
+  useEffect(() => {
+    const unsub = useStore.subscribe(
+      (state) => state.spendList,
+      (_, prevSpendList) => {
+        const isTimeTravelling = useStore.getState().isTimeTravelling;
+
+        if (isTimeTravelling) {
+          useStore.setState({ isTimeTravelling: false });
+          return;
+        }
+
+        useStore.setState((state) => ({
+          history: [...state.history, prevSpendList],
+          redoStack: [],
+        }));
+      }
+    );
+
+    return () => unsub();
+  }, []);
+
   return (
     <div className="w-[60%] m-auto flex justify-between h-screen">
       <MultiAlert />

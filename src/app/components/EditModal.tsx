@@ -8,7 +8,7 @@ const EditModal = () => {
 
   return (
     <dialog open className="modal">
-      <div className="modal-box">
+      <div className="modal-box w-[410px]">
         <form method="dialog">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-[12px] top-[12px]"

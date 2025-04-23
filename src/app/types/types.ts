@@ -17,11 +17,11 @@ export interface SpendState {
   totalMeal: number;
   editInfo: AddSpendState;
   deleteInfo: { key: string };
-
+  history: AddSpendState[][];
+  redoStack: AddSpendState[][];
+  isTimeTravelling?: boolean;
   toastOpen: { name: string; status: boolean };
   setToastOpen: (name: string, status: boolean) => void;
-  history: AddSpendState[];
-  redoStack: AddSpendState[];
 
   modalOpen: boolean;
   setModalOpen: (value: boolean) => void;
