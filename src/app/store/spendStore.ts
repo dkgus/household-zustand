@@ -5,7 +5,7 @@ import { calSum } from "../utils";
 import { subscribeWithSelector } from "zustand/middleware";
 
 export const useStore = create<SpendState>()(
-  subscribeWithSelector((set, get) => ({
+  subscribeWithSelector((set) => ({
     allIncome: 0,
     allExpense: 0,
     totalRent: 0,
