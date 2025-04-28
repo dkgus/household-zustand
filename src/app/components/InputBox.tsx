@@ -7,7 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import MoenySwitch from "./MoenySwitch";
 
 const InputBox = (props: { pageType: string; editId?: string }) => {
-  const { addList, editList, editInfo, spendList, setModalOpen } = useStore();
+  const { addList, editList, editInfo, setModalOpen, setToastOpen } =
+    useStore();
   const { pageType } = props;
 
   const [data, setData] = useState<AddSpendState>({
@@ -37,24 +38,34 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
     income: "수입",
     "": "",
   };
+  const valFunc = (newData: AddSpendState) => {
+    if (newData.price !== 0 && newData.storeNm !== "" && newData.type !== "") {
+      return true;
+    } else {
+      setToastOpen("warning", true);
+    }
+  };
 
   const saveItem = (date: string, type: string) => {
     const newData = {
       date: date,
       ...data,
     };
-    if (type === "edit") editList(newData);
-    else addList(newData);
+    const validator = valFunc(newData);
+    if (validator) {
+      if (type === "edit") editList(newData);
+      else addList(newData);
 
-    setData({
-      id: uuidv4(),
-      date,
-      storeNm: "",
-      price: 0,
-      type: "",
-      checked: false,
-    });
-    if (type === "edit") setModalOpen(false);
+      setData({
+        id: uuidv4(),
+        date,
+        storeNm: "",
+        price: 0,
+        type: "",
+        checked: false,
+      });
+      if (type === "edit") setModalOpen(false);
+    }
   };
 
   return (
@@ -95,12 +106,14 @@ const InputBox = (props: { pageType: string; editId?: string }) => {
         )}
         <input
           type="text"
-          className="input my-[10px] bg-[#fff]"
+          className="input validator my-[10px] bg-[#fff]"
           placeholder="결제 금액"
           name="price"
+          required
           value={data.price || 0}
           onChange={(e) => setData({ ...data, price: +e.target.value })}
         />
+
         <input
           type="text"
           className="input bg-[#fff]"

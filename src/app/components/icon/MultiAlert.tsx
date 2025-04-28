@@ -1,11 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useStore } from "@/app/store/spendStore";
 
 const MultiAlert = () => {
   const { toastOpen, setToastOpen, deleteInfo, deleteList, undo, redo } =
     useStore();
+
+  useEffect(() => {
+    if (toastOpen.status && toastOpen.name === "warning") {
+      const timer = setTimeout(() => {
+        setToastOpen("", false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [toastOpen.status, toastOpen.name, setToastOpen]);
+
   return (
     <>
       {toastOpen.status && (
@@ -37,6 +47,8 @@ const MultiAlert = () => {
               <span>
                 {toastOpen.name === "delete"
                   ? "삭제하시겠습니까?"
+                  : toastOpen.name === "warning"
+                  ? "모든 추가항목을 입력해주세요"
                   : "되돌리시겠습니까?"}
               </span>
             </div>
@@ -87,7 +99,6 @@ const MultiAlert = () => {
               )}
             </div>
           </div>
-          {/* )} */}
         </>
       )}
     </>

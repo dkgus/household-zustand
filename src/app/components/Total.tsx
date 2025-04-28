@@ -21,7 +21,9 @@ const Total = () => {
                   이번 달 {idx === 0 ? " 총 수입" : "총 지출"}{" "}
                 </h2>
                 <div className="stat-value text-[black]">
-                  {idx === 0 ? `+${allIncome}` : `-${allExpense}`}
+                  {idx === 0
+                    ? `+${Number(allIncome).toLocaleString()}`
+                    : `-${Number(allExpense).toLocaleString()}`}
                 </div>
               </div>
             </div>
