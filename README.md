@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💸 자산 관리 미니 웹 어플리케이션
 
-## Getting Started
+사용자의 지출 및 수입 내역을 손쉽게 기록하고 관리할 수 있는  
+**Zustand 기반의 Undo/Redo 지원 자산 관리 웹 앱**입니다.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🔗 배포 링크
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [서비스 바로가기](https://household-zustand.vercel.app/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠 사용 기술 스택
 
-## Learn More
+- `React`
+- `Next.js`
+- `TypeScript`, `JavaScript`
+- `Tailwind CSS`, `DaisyUI`
+- `Zustand` 
+- `Vercel` 
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 프로젝트 목표 및 배경
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 사용자가 **지출/수입 내역을 기록**할 수 있는 자산 관리 앱 개발
+- Zustand의 강점을 살려 **웹 앱의 상태 관리 + 사용자 행위 추적** 기능을 함께 구현
+- 특히, 단순한 상태 공유를 넘어서 **사용자 액션 기반 흐름 관리**를 위해 `undo/redo` 기능 도입
 
-## Deploy on Vercel
+> 기존 가계부 앱들은 수정/삭제 시 복구가 어려운 경우가 많습니다.  
+> 본 앱은 **undo/redo 기능을 통해 사용자의 실수 방지를 돕는 인터랙션**을 제공합니다.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔄 Zustand를 사용한 이유
+
+- Redux보다 **설정이 간단**하면서도, `undo/redo` 등 커스텀 로직 구현이 쉬운 상태 관리 도구
+- `subscribe` 기능을 활용하여 상태 변경과 히스토리 조작이 충돌하지 않도록 `isTimeTravelling` 플래그 도입
+- 상태 변경 히스토리를 효율적으로 추적하고 관리함으로써, 사용자 경험 향상
+
+---
+
+## 🧩 주요 기능
+
+- ✍️ **수입/지출 내역 입력 및 목록 관리**
+- 🔄 **Undo / Redo 기능 제공**
+- ✅ **간단하고 직관적인 UI (DaisyUI 기반)**
+- 📱 **반응형 UI 지원 (모바일, 태블릿, 데스크탑)**
+
+---
+
+## 📌 핵심 기술 포인트
+
+- **Zustand**로 상태 관리 및 `undo/redo` 구현
+- `subscribe`와 `middleware`를 활용한 히스토리 추적 로직
+- `isTimeTravelling` 플래그로 **타임 트래블 중복 처리 방지**
+
+
+
